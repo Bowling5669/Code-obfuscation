@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>แสดงเครดิต</title>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --secondary: #f97316;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Itim', cursive;
+      background: var(--bg);
+      background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    
+    h1 {
+      color: var(--primary-dark);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+    
+    .subtitle {
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+    
+    .credit-box {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .credit-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .credit-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 100%;
+      background: var(--primary);
+      border-radius: 16px 0 0 16px;
+    }
+    
+    .credit-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    
+    .credit-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .credit-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .credit-links {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+    
+    .credit-links a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.2s;
+      border-bottom: 1px dotted var(--primary-light);
+      padding-bottom: 2px;
+    }
+    
+    .credit-links a:hover {
+      color: var(--secondary);
+      border-bottom-color: var(--secondary);
+    }
+    
+    .credit-content {
+      margin-top: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      background: #f1f5f9;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-light) #f1f5f9;
+    }
+    
+    .credit-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .credit-content::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+    
+    .credit-content::-webkit-scrollbar-thumb {
+      background-color: var(--primary-light);
+      border-radius: 8px;
+    }
+    
+    .expand-btn {
+      padding: 0.5rem 1.2rem;
+      background-color: var(--primary);
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: 'Itim', cursive;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .expand-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .expand-btn:active {
+      transform: translateY(0);
+    }
+    
+    .fullscreen {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.98);
+      padding: 2rem;
+      z-index: 999;
+      overflow-y: auto;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .fullscreen-content {
+      background: #f1f5f9;
+      padding: 2rem;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      line-height: 1.6;
+      flex: 1;
+      margin: 1rem 0;
+      border: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    
+    .fullscreen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .fullscreen-header h2 {
+      color: var(--primary-dark);
+      font-size: 1.8rem;
+    }
+    
+    .close-btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Itim', cursive;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .close-btn:hover {
+      background: var(--secondary);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    /* New styles for back button and language switcher */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--primary);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-family: 'Itim', cursive;
+    }
+    
+    .back-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .back-btn:active {
+      transform: translateY(0);
+    }
+    
+    .lang-switcher {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--card);
+      padding: 0.4rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .lang-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Itim', cursive;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      color: var(--text-light);
+    }
+    
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .lang-btn:hover:not(.active) {
+      background: #f1f5f9;
+      color: var(--primary);
+    }
+    
+    [lang="en"] .th-content {
+      display: none;
+    }
+    
+    [lang="th"] .en-content {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .credit-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .credit-links {
+        margin-top: 0.5rem;
+      }
+      
+      .top-nav {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-nav">
+      <button class="back-btn" onclick="goToIndex()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        <span class="th-content">กลับไปหน้าหลัก</span>
+        <span class="en-content">Back to Home</span>
+      </button>
+      
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="th" onclick="switchLanguage('th')">ไทย</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+      </div>
+    </div>
+
+    <header>
+      <h1>
+        <span class="th-content">📜 เครดิตของเครื่องมือที่ใช้</span>
+        <span class="en-content">📜 Tool Credits</span>
+      </h1>
+      <p class="subtitle">
+        <span class="th-content">รายละเอียดลิขสิทธิ์และแหล่งที่มาของเครื่องมือต่างๆ</span>
+        <span class="en-content">License details and sources of tools used</span>
+      </p>
+    </header>
+
+    <div class="credit-box">
+      <div class="credit-header">
+        <div class="credit-title">
+          <h2>🔐 JavaScript Obfuscator</h2>
+        </div>
+        <div class="credit-links">
+          <p>
+            <span class="th-content">แหล่งที่มา:</span>
+            <span class="en-content">Source:</span>
+            <a href="https://github.com/javascript-obfuscator/javascript-obfuscator" target="_blank">github.com/javascript-obfuscator</a><br>
+            CDN: <a href="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js">cdn.jsdelivr.net/npm/javascript-obfuscator</a>
+          </p>
+        </div>
+        <button class="expand-btn" onclick="expandCredit('js-obfuscator')">
+          <span class="th-content">ขยาย</span>
+          <span class="en-content">Expand</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 3a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V8H4a.5.5 0 0 1 0-1h3.5V3.5A.5.5 0 0 1 8 3z"/>
+          </svg>
+        </button>
+      </div>
+      <div id="js-obfuscator" class="credit-content">
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+      </div>
+    </div>
+
+    <div class="credit-box">
+      <div class="credit-header">
+        <div class="credit-title">
+          <h2>🧹 JS Beautify</h2>
+        </div>
+        <div class="credit-links">
+          <p>
+            <span class="th-content">แหล่งที่มา:</span>
+            <span class="en-content">Source:</span>
+            <a href="https://github.com/beautify-web/js-beautify" target="_blank">github.com/beautify-web/js-beautify</a><br>
+            CDN: <a href="https://cdn.jsdelivr.net/npm/js-beautify@1.14.0/js/lib/beautify.js" target="_blank">cdn.jsdelivr.net/npm/js-beautify</a>
+          </p>
+        </div>
+        <button class="expand-btn" onclick="expandCredit('js-beautify')">
+          <span class="th-content">ขยาย</span>
+          <span class="en-content">Expand</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 3a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V8H4a.5.5 0 0 1 0-1h3.5V3.5A.5.5 0 0 1 8 3z"/>
+          </svg>
+        </button>
+      </div>
+      <div id="js-beautify" class="credit-content">
+The MIT License (MIT)
+
+Copyright (c) 2007-2018 Einar Lielmanis, Liam Newman, and contributors.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p>About me</p>
+      </div>
+<div class="footer-links" style="text-align:center; padding:15px 0; background:#dffaff; font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif; font-size:16px;">
+  <a href="https://github.com/Bowling5669" target="_blank" style="color:#000000; text-decoration:none; margin:0 10px; display:inline-flex; align-items:center; gap:6px;">
+    <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub Logo" style="width:20px; height:20px;">
+    GitHub |
+  </a>
+  <a href="https://youtube.com/@addon_b?si=S7rdWLquKaN49tns" target="_blank" style="color:#000000; text-decoration:none; margin:0 10px; display:inline-flex; align-items:center; gap:6px;">
+    <img src="https://e7.pngegg.com/pngimages/208/269/png-clipart-youtube-play-button-computer-icons-youtube-youtube-logo-angle-rectangle-thumbnail.png" alt="YouTube Logo" style="width:20px; height:20px;">
+    Youtube
+  </a>
+</div>
+
+
+    </footer>
+  </div>
+
+  <script>
+    // Set default language
+    let currentLanguage = 'th';
+    
+    // Function to switch language
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      document.documentElement.setAttribute('lang', lang);
+      
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.dataset.lang === lang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+    
+    // Function to go back to index page
+    function goToIndex() {
+      window.location.href = 'index.html';
+    }
+    
+    // Function to expand credit
+    function expandCredit(id) {
+      const content = document.getElementById(id);
+      const title = content.previousElementSibling.querySelector('h2').textContent;
+      
+      const fullscreen = document.createElement('div');
+      fullscreen.className = 'fullscreen';
+      
+      const header = document.createElement('div');
+      header.className = 'fullscreen-header';
+      
+      const heading = document.createElement('h2');
+      heading.textContent = title;
+      
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'close-btn';
+      
+      // Add language-specific close button text
+      const closeTextTh = document.createElement('span');
+      closeTextTh.className = 'th-content';
+      closeTextTh.textContent = 'ปิด';
+      
+      const closeTextEn = document.createElement('span');
+      closeTextEn.className = 'en-content';
+      closeTextEn.textContent = 'Close';
+      
+      const closeIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      closeIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      closeIcon.setAttribute('width', '16');
+      closeIcon.setAttribute('height', '16');
+      closeIcon.setAttribute('fill', 'currentColor');
+      closeIcon.setAttribute('viewBox', '0 0 16 16');
+      
+      const closePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      closePath.setAttribute('d', 'M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z');
+      
+      closeIcon.appendChild(closePath);
+      closeBtn.appendChild(closeTextTh);
+      closeBtn.appendChild(closeTextEn);
+      closeBtn.appendChild(closeIcon);
+      
+      closeBtn.onclick = () => document.body.removeChild(fullscreen);
+      
+      header.appendChild(heading);
+      header.appendChild(closeBtn);
+      
+      const fullscreenContent = document.createElement('div');
+      fullscreenContent.className = 'fullscreen-content';
+      fullscreenContent.textContent = content.textContent;
+      
+      fullscreen.appendChild(header);
+      fullscreen.appendChild(fullscreenContent);
+      
+      document.body.appendChild(fullscreen);
+      
+      // Apply current language to the fullscreen view
+      fullscreen.querySelectorAll('.th-content, .en-content').forEach(el => {
+        if ((el.classList.contains('th-content') && currentLanguage === 'en') ||
+            (el.classList.contains('en-content') && currentLanguage === 'th')) {
+          el.style.display = 'none';
+        } else {
+          el.style.display = 'inline';
+        }
+      });
+    }
+    
+    // Initialize language
+    switchLanguage(currentLanguage);
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'963cf62c91ebf82a',t:'MTc1MzI5MjQxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
