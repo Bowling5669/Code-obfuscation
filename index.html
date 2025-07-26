@@ -1,480 +1,351 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encoder</title>
-    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
-    <style>
-        
-        :root {
-            --primary: #6366f1;
-            --primary-light: #818cf8;
-            --primary-dark: #4f46e5;
-            --secondary: #f97316;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --border: #e2e8f0;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Itim', cursive;
-            background: var(--bg);
-            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-            color: var(--text);
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
-        
-        h1 {
-            color: var(--primary-dark);
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--secondary);
-            border-radius: 2px;
-        }
-        
-        .subtitle {
-            color: var(--text-light);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .credit-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: var(--primary);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
-            font-family: 'Itim', cursive;
-        }
-        
-        .credit-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .credit-btn:active {
-            transform: translateY(0);
-        }
-        
-        .lang-switcher {
-            display: flex;
-            gap: 0.5rem;
-            background: var(--card);
-            padding: 0.4rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .lang-btn {
-            
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-family: 'Itim', cursive;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            color: var(--text-light);
-        }
-        
-        .lang-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .lang-btn:hover:not(.active) {
-            background: #f1f5f9;
-            color: var(--primary);
-        }
-        
-        .code-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .code-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 100%;
-            background: var(--primary);
-            border-radius: 16px 0 0 16px;
-        }
-        
-        h2 {
-            color: var(--primary);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-family: monospace;
-            font-size: 0.9rem;
-            resize: vertical;
-            background: #f1f5f9;
-            color: var(--text);
-            transition: border-color 0.2s ease;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .action-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            border: none;
-            font-family: 'Itim', cursive;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #ea580c;
-            transform: translateY(-2px);
-        }
-        
-        .btn-danger {
-            background-color: #ef4444;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #dc2626;
-            transform: translateY(-2px);
-        }
-        
-        .btn-primary:active, .btn-secondary:active, .btn-danger:active {
-            transform: translateY(0);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        
-        [lang="en"] .th-content {
-            display: none;
-        }
-        
-        [lang="th"] .en-content {
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .top-nav {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-            
-            .button-group {
-                justify-content: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Encoder</title>
+<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #6366f1;
+    --primary-light: #818cf8;
+    --primary-dark: #4f46e5;
+    --secondary: #f97316;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  }
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Itim', cursive;
+    background: var(--bg);
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 2rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  h1 {
+    color: var(--primary-dark);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary);
+    border-radius: 2px;
+  }
+  .subtitle {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .credit-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-family: 'Itim', cursive;
+  }
+  .credit-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+  .credit-btn:active {
+    transform: translateY(0);
+  }
+  .lang-switcher {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--card);
+    padding: 0.4rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .lang-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Itim', cursive;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    color: var(--text-light);
+  }
+  .lang-btn.active {
+    background: var(--primary);
+    color: white;
+  }
+  .lang-btn:hover:not(.active) {
+    background: #f1f5f9;
+    color: var(--primary);
+  }
+  .code-section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .code-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 8px; height: 100%;
+    background: var(--primary);
+    border-radius: 16px 0 0 16px;
+  }
+  h2 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-family: monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+    background: #f1f5f9;
+    color: var(--text);
+    transition: border-color 0.2s ease;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .action-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Itim', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-primary {
+    background-color: var(--primary);
+    color: white;
+  }
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    background-color: var(--secondary);
+    color: white;
+  }
+  .btn-secondary:hover {
+    background-color: #ea580c;
+    transform: translateY(-2px);
+  }
+  .btn-danger {
+    background-color: #ef4444;
+    color: white;
+  }
+  .btn-danger:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+  }
+  .btn-primary:active, .btn-secondary:active, .btn-danger:active {
+    transform: translateY(0);
+  }
+  footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+  [lang="en"] .th-content { display: none; }
+  [lang="th"] .en-content { display: none; }
+  @media (max-width: 768px) {
+    body { padding: 1rem; }
+    h1 { font-size: 2rem; }
+    .top-nav { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    .button-group { justify-content: center; }
+  }
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="top-nav">
-            <a href="credits.html" class="credit-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
-                </svg>
-                <span class="th-content">เครดิต</span>
-                <span class="en-content">Credits</span>
-            </a>
-            
-            <div class="lang-switcher">
-                <button class="lang-btn active" data-lang="th" onclick="switchLanguage('th')">ไทย</button>
-                <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
-            </div>
-        </div>
-
-        <header>
-            <h1>
-                <span class="th-content">🔐 เครื่องมือเข้ารหัส JavaScript</span>
-                <span class="en-content">🔐 JavaScript Encoder</span>
-            </h1>
-            <p class="subtitle">
-                <span class="th-content">เข้ารหัสและจัดรูปแบบโค้ด JavaScript ของคุณ</span>
-                <span class="en-content">Obfuscate and format your JavaScript code</span>
-            </p>
-        </header>
-
-        <div class="code-section">
-            <h2>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
-                </svg>
-                <span class="th-content">ใส่โค้ดของคุณ:</span>
-                <span class="en-content">Input your code:</span>
-            </h2>
-            <textarea id="input" placeholder="วางโค้ด JavaScript ที่นี่..."></textarea>
-            
-            <div class="button-group">
-                <button id="btnObfuscate" onclick="enCode()" class="action-btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-                    </svg>
-                    <span>Obfuscate</span>
-                </button>
-                <button id="btnSort" onclick="sortCode()" class="action-btn btn-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z"/>
-                        <path d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zm-8.46-.5a.5.5 0 0 1-1 0V3.707L2.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L4.5 3.707V13.5z"/>
-                    </svg>
-                    <span>Sort</span>
-                </button>
-                <button id="btnClear" onclick="clearCode()" class="action-btn btn-danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                    </svg>
-                    <span>Clear</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="code-section">
-            <h2>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/>
-                </svg>
-                <span class="th-content">ผลลัพธ์:</span>
-                <span class="en-content">Result:</span>
-            </h2>
-            <textarea id="output" readonly placeholder="ผลลัพธ์จะแสดงตรงนี้..."></textarea>
-        </div>
-    <footer>
-      <div class="footer-content">
-        <p>About me</p>
+  <div class="container">
+    <div class="top-nav">
+      <a href="credits.html" class="credit-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/></svg>
+        <span class="th-content">เครดิต</span><span class="en-content">Credits</span>
+      </a>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="th" onclick="switchLanguage('th')">ไทย</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
       </div>
-<div class="footer-links" style="text-align:center; padding:15px 0; background:#dffaff; font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif; font-size:16px;">
-  <a href="https://github.com/Bowling5669" target="_blank" style="color:#000000; text-decoration:none; margin:0 10px; display:inline-flex; align-items:center; gap:6px;">
-    <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub Logo" style="width:20px; height:20px;">
-    GitHub |
-  </a>
-  <a href="https://youtube.com/@addon_b?si=S7rdWLquKaN49tns" target="_blank" style="color:#000000; text-decoration:none; margin:0 10px; display:inline-flex; align-items:center; gap:6px;">
-    <img src="https://e7.pngegg.com/pngimages/208/269/png-clipart-youtube-play-button-computer-icons-youtube-youtube-logo-angle-rectangle-thumbnail.png" alt="YouTube Logo" style="width:20px; height:20px;">
-    Youtube
-  </a>
-</div>
+    </div>
+    <center>
+<img src="logo.jpeg" alt="" style="width: 100px; height: 100px; border-radius: 100px;">
 
+</center>
+    <header>
+      <h1>
+        
+        <span class="th-content">🔐 เครื่องมือเข้ารหัส JavaScript</span>
+        <span class="en-content">🔐 JavaScript Encoder</span>
+      </h1>
+      <p class="subtitle">
+        <span class="th-content">เข้ารหัสและจัดรูปแบบโค้ด JavaScript ของคุณ</span>
+        <span class="en-content">Obfuscate and format your JavaScript code</span>
+      </p>
+    </header>
 
-    </footer>
-        </footer>
+    <div class="code-section">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
+        </svg>
+        <span class="th-content">ใส่โค้ดของคุณ:</span>
+        <span class="en-content">Input your code:</span>
+      </h2>
+      <textarea id="input" placeholder="วางโค้ด JavaScript ที่นี่..."></textarea>
+      <div class="button-group">
+        <button id="btnObfuscate" onclick="enCode()" class="action-btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+          </svg>
+          <span>Obfuscate</span>
+        </button>
+        <button id="btnSort" onclick="sortCode()" class="action-btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z"/>
+            <path d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zm-8.46-.5a.5.5 0 0 1-1 0V3.707L2.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L4.5 3.707V13.5z"/>
+          </svg>
+          <span>Sort</span>
+        </button>
+        <button id="btnClear" onclick="clearCode()" class="action-btn btn-danger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2.5a.5.5 0 0 1 .5-.5H5h6h2.5a.5.5 0 0 1 .5.5V3zm-3 1V4H5v9a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V4h.5z"/>
+          </svg>
+          <span>Clear</span>
+        </button>
+      </div>
     </div>
 
-    <!--สำหรับเข้ารหัสโค้ด-->
-    <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
-    <!--สำหรับจัดโค้ด-->
-    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.14.0/js/lib/beautify.js"></script>
+    <div class="code-section" style="margin-bottom:0;">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM7 4h2v5H7V4zm1 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </svg>
+        <span class="th-content">ผลลัพธ์:</span>
+        <span class="en-content">Result:</span>
+      </h2>
+      <pre id="output" style="white-space: pre-wrap; word-wrap: break-word; background: #f1f5f9; color:#000; min-height: 200px; font-family: monospace; border-radius: 8px; padding: 1rem; border: 1px solid var(--border); overflow-x: auto;"></pre>
+    </div>
 
-    <script>
-        // Set default language
-        let currentLanguage = 'th';
-        
-        // Function to switch language
-        function switchLanguage(lang) {
-            currentLanguage = lang;
-            document.documentElement.setAttribute('lang', lang);
-            
-            // Update active button
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                if (btn.dataset.lang === lang) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            
-            // Update placeholders based on language
-            if (lang === 'th') {
-                document.getElementById('input').placeholder = "วางโค้ด JavaScript ที่นี่...";
-                document.getElementById('output').placeholder = "ผลลัพธ์จะแสดงตรงนี้...";
-            } else {
-                document.getElementById('input').placeholder = "Paste your JavaScript code here...";
-                document.getElementById('output').placeholder = "Results will appear here...";
-            }
-        }
+    <footer>
+      <p>
+        <span class="th-content">สร้างโดย B</span>
+        <span class="en-content">Created by B</span>
+      </p>
+    </footer>
+  </div>
 
-        //ฟังชั่นการเข้ารหัส
-        function enCode() {
-            const input = document.getElementById("input");
-            const output = document.getElementById("output");
+<script>
+  // เปลี่ยนภาษา
+  function switchLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
 
-            if (!input.value.trim()) {
-                output.value = currentLanguage === 'th' ? 
-                    "กรุณาใส่โค้ด JavaScript ก่อน" : 
-                    "Please enter JavaScript code first";
-                return;
-            }
+  // ฟังก์ชันเข้ารหัส (obfuscate) แบบง่าย — ตัวอย่างจริงต้องใช้ library อื่นหรือ custom เพิ่ม
+  function enCode() {
+    let code = document.getElementById('input').value.trim();
+    if (!code) {
+      alert('กรุณาใส่โค้ดก่อน');
+      return;
+    }
+    // ตัวอย่างง่าย: แปลงโค้ดเป็น base64 (ไม่ใช่ obfuscate จริง)
+    // คุณจะเปลี่ยนเป็นฟังก์ชัน obfuscate ที่แท้จริงได้ที่นี่
+    let encoded = btoa(unescape(encodeURIComponent(code)));
 
-            try {
-                const obfuscatedCode = JavaScriptObfuscator.obfuscate(
-                    input.value,
-                    {
-                        compact: true,
-                        controlFlowFlattening: true
-                    }
-                ).getObfuscatedCode();
+    // แสดงผลแบบง่าย
+    document.getElementById('output').textContent = `// Base64 encoded JavaScript:\n\n` + encoded;
+  }
 
-                output.value = obfuscatedCode;
-            } catch(e) {
-                output.value = currentLanguage === 'th' ? 
-                    "เกิดข้อผิดพลาดในการเข้ารหัส: " + e.message : 
-                    "Error in obfuscation: " + e.message;
-            }
-        }
+  // ฟังก์ชันจัดเรียงบรรทัดโค้ดตามตัวอักษร (sort)
+  function sortCode() {
+    let code = document.getElementById('input').value.trim();
+    if (!code) {
+      alert('กรุณาใส่โค้ดก่อน');
+      return;
+    }
+    let lines = code.split('\n');
+    lines.sort((a,b) => a.localeCompare(b));
+    document.getElementById('input').value = lines.join('\n');
+  }
 
-        //ฟังชั่นเคลียร์ช่องข้อความ
-        function clearCode() {
-            const input = document.getElementById("input");
-            const output = document.getElementById("output");
-
-            input.value = "";
-            output.value = "";
-            
-            // Reset placeholders based on current language
-            if (currentLanguage === 'th') {
-                input.placeholder = "วางโค้ด JavaScript ที่นี่...";
-                output.placeholder = "ผลลัพธ์จะแสดงตรงนี้...";
-            } else {
-                input.placeholder = "Paste your JavaScript code here...";
-                output.placeholder = "Results will appear here...";
-            }
-        }
-
-        //ฟังชั่นจัดโค้ด
-        function sortCode() {
-            const input = document.getElementById("input");
-            const output = document.getElementById("output");
-
-            if (!input.value.trim()) {
-                output.value = currentLanguage === 'th' ? 
-                    "กรุณาใส่โค้ด JavaScript ก่อน" : 
-                    "Please enter JavaScript code first";
-                return;
-            }
-
-            try {
-                const beautified = js_beautify(input.value, { indent_size: 2 });
-                output.value = beautified;
-            } catch(e) {
-                output.value = currentLanguage === 'th' ? 
-                    "เกิดข้อผิดพลาดในการจัดรูปแบบโค้ด: " + e.message : 
-                    "Error formatting code: " + e.message;
-            }
-        }
-
-        // Initialize language
-        switchLanguage(currentLanguage);
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'963d1093949c7b41',t:'MTc1MzI5MzQ5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  // ฟังก์ชันล้างโค้ด
+  function clearCode() {
+    if (confirm('ต้องการล้างโค้ดทั้งหมดหรือไม่?')) {
+      document.getElementById('input').value = '';
+      document.getElementById('output').textContent = '';
+    }
+  }
+</script>
+</body>
 </html>
